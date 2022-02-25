@@ -26,7 +26,7 @@ class CasillaController extends Controller
      */
     public function create()
     {
-        //
+        return view('casilla/create');
     }
 
     /**
@@ -37,7 +37,7 @@ class CasillaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        print_r($request->all());
     }
 
     /**

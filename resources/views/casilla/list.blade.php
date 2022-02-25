@@ -9,7 +9,7 @@
 <div class="uper">
     @if(session()->get('success'))
     <div class="alert alert-success">
-    {{ session()->get('success') }}
+        {{ session()->get('success') }}
     </div>
     <br />
     @endif
@@ -18,7 +18,7 @@
         <tr>
             <td>ID</td>
             <td>UBICACION</td>
-            <td colspan="2">Action</td>
+            <td colspan="2">ACTION</td>
         </tr>
     </thead>
     <tbody>
