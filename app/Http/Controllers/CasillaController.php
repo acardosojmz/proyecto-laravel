@@ -37,7 +37,15 @@ class CasillaController extends Controller
      */
     public function store(Request $request)
     {
-        print_r($request->all());
+        //print_r($request->all());
+        $request->validate([
+            'ubicacion' => 'required|max:100',
+        ]);
+        
+        $data['ubicacion'] = $request->ubicacion;
+        $casilla = Casilla::create($data);
+        return redirect('casilla')->with('success',
+        $casilla->ubicacion . ' guardado satisfactoriamente ...');
     }
 
     /**
@@ -59,7 +67,8 @@ class CasillaController extends Controller
      */
     public function edit($id)
     {
-        echo "Element $id to Edit";
+        $casilla = Casilla::find($id);
+        return view('casilla/edit', compact('casilla'));
     }
 
     /**
@@ -71,7 +80,13 @@ class CasillaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        echo "Element $id updated";
+            $request->validate([
+                'ubicacion' => 'required|max:100',
+            ]);
+            $data['ubicacion']= $request->ubicacion;
+            Casilla::whereId($id)->update($data);
+            return redirect('casilla')
+            ->with('success', 'Actualizado correctamente...');
     }
 
     /**
@@ -82,6 +97,7 @@ class CasillaController extends Controller
      */
     public function destroy($id)
     {
-        echo "Element $id has deleted";
+        Casilla::whereId($id)->delete();
+        return redirect('casilla');
     }
 }
