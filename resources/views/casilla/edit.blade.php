@@ -10,7 +10,8 @@
         Editar casilla
     </div>
     <div class="card-body">
-        @if ($errors->any())<div class="alert alert-danger">
+        @if ($errors->any())
+        <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
@@ -22,12 +23,10 @@
             {{ csrf_field() }}
             @method('PUT')
             <div class="form-group">
-                @csrf
                 <label for="id">ID:</label>
                 <input type="text" class="form-control" readonly="true" value="{{$casilla->id}}" name="id" />
             </div>
             <div class="form-group">
-                @csrf
                 <label for="descripcion">Ubicación:</label>
                 <input type="text" value="{{$casilla->ubicacion}}" class="form-control" name="ubicacion" />
             </div>

@@ -23,9 +23,9 @@
         enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group">
-                @csrf
                 <label for="ubicacion">Ubicación:</label>
-                <input type="text" class="form-control" name="ubicacion" />
+                <input type="text" id="ubicacion"
+                 class="form-control" name="ubicacion" />
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
         </form>
