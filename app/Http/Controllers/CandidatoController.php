@@ -66,7 +66,8 @@ class CandidatoController extends Controller
         if ($request->hasFile('perfil')) $perfil->move(public_path('pdf'), $perfilcandidato);
         //print_r($campos);
         $candidato = Candidato::create($campos);
-        echo $candidato->nombrecompleto . " se guardo correctamente ... ";
+        //echo $candidato->nombrecompleto . " se guardo correctamente ... ";
+        return redirect("candidato");
     }
 
 
@@ -117,6 +118,7 @@ class CandidatoController extends Controller
         }
 
         $currentValue = Candidato::find($id);
+        
         if (empty($fotoCandidato)) $fotoCandidato = $currentValue->foto;
         if (empty($perfilCandidato)) $perfilCandidato = $currentValue->perfil;
 

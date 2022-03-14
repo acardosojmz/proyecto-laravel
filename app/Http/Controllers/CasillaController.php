@@ -16,7 +16,8 @@ class CasillaController extends Controller
     public function index()
     {
         $casillas = Casilla::all();
-        return view('casilla/list', compact('casillas'));
+        $today = now();
+        return view('casilla/list', compact('casillas','today'));
     }
 
     /**

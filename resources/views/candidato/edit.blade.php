@@ -44,7 +44,7 @@
 
             <div class="form-group">
                 <label for="foto">Foto:</label>
-                <img src="/image/{{$candidato->foto}}" height="100px">
+                <img src="/image/{{$candidato->foto}}" height="100px"  width="100px" >
                 <input type="file" id="foto" accept="image/png, image/jpeg" 
                  class="form-control" name="foto" />
             </div>
