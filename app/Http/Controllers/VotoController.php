@@ -8,7 +8,7 @@ use App\Models\Casilla;
 use App\Models\Eleccion;
 use App\Models\Voto;
 use App\Models\Votocandidato;
-
+use Illuminate\Support\Facades\DB;
 
 class VotoController extends Controller
 {
@@ -43,37 +43,45 @@ class VotoController extends Controller
      */
     public function store(Request $request)
     {
-       
-        $candidatos=[];
-        foreach($request->all() as $k=>$v){
-           
-            if (substr($k,0,10)=="candidato_")
-                $candidatos[substr($k,10)]=$v;
-        }
-
-  
-        $data['eleccion_id']=$request->eleccion_id;
-        $data['casilla_id']=$request->casilla_id;
-        $evidenceFileName ="";
-        if ($request->hasFile('evidencia')) {
-            $evidenceFileName = $request->file('evidencia')->getClientOriginalName();
-        }
-        if ($request->hasFile('evidencia')) $request->file('evidencia')->move(public_path('pdf'), $evidenceFileName);
-
-        $data['evidencia']=$evidenceFileName;
         
-        $voto =Voto::create($data);
-        print("ID: ". $voto->id);
+            $candidatos=[];
+            foreach($request->all() as $k=>$v){
+                if (substr($k,0,10)=="candidato_")
+                    $candidatos[substr($k,10)]=$v;
+            }
 
-        //--- save to votocandidato
-        foreach($candidatos as $k=>$v){
-            $votocandidato=[];
-            $votocandidato['voto_id']= $voto->id;
-            $votocandidato['candidato_id'] = $k;
-            $votocandidato['votos']=$v;
-            Votocandidato::create($votocandidato);
-        }
-        echo "Guardado ....";
+    
+            $data['eleccion_id']=$request->eleccion_id;
+            $data['casilla_id']=$request->casilla_id;
+            $evidenceFileName ="";
+            if ($request->hasFile('evidencia')) {
+                $evidenceFileName = $request->file('evidencia')->getClientOriginalName();
+            }
+            if ($request->hasFile('evidencia')) $request->file('evidencia')->move(public_path('pdf'), $evidenceFileName);
+
+            $data['evidencia']=$evidenceFileName;
+            $success=false;
+            $message="save sucessfull";
+            DB::beginTransaction();
+            try {
+                $voto =Voto::create($data);
+    
+                //--- save to votocandidato
+                foreach($candidatos as $k=>$v){
+                    $votocandidato=[];
+                    $votocandidato['voto_id']= $voto->id;
+                    $votocandidato['candidato_id'] = $k;
+                    $votocandidato['votos']=$v;
+                    Votocandidato::create($votocandidato);
+                }
+                DB::commit();
+                $success=true;
+            } catch (\Exception $e) {
+                DB::rollback();
+                $message=$e->getMessage();
+            }
+        
+        echo $message;
         
     }  
 
