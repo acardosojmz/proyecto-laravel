@@ -8,12 +8,14 @@ use App\Models\Casilla;
 use App\Models\Eleccion;
 use App\Models\Voto;
 use App\Models\Votocandidato;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class VotoController extends Controller
 {   
     private $DUPLICATE_KEY_CODE=23000;
-    private $DUPLICATE_KEY_MESSAGE="Ya existe un dato igual en la BD, no se permiten duplicados";
+    private $DUPLICATE_KEY_MESSAGE="Ya existe un dato igual en la BD, ". 
+            "no se permiten duplicados";
     /**
      * Display a listing of the resource.
      *
@@ -77,6 +79,7 @@ class VotoController extends Controller
             $data['evidencia']=$evidenceFileName;
             
             $message="save successfull";
+            $success=true;
             DB::beginTransaction();
             try {
                 //--- save to voto
@@ -93,6 +96,7 @@ class VotoController extends Controller
                 DB::commit();
                 
             } catch (\Exception $e) {
+                $success=false;
                 DB::rollback();
                 if ($e->getCode()==$this->DUPLICATE_KEY_CODE)
                     $message=$this->DUPLICATE_KEY_MESSAGE;
@@ -100,7 +104,7 @@ class VotoController extends Controller
                     $message=$e->getMessage();
             }
         
-        return view('errors',compact('message'));
+        return view('message',compact('message','success'));
         
     }  
 
@@ -146,6 +150,19 @@ class VotoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        $success=true;
+        try {
+            Votocandidato::where('voto_id', '=', $id)->delete();
+            Voto::whereId($id)->delete();
+            DB::commit();
+            $message="Operacion exitosa";
+
+        } catch (\Exception $ex){
+            DB::rollBack();
+            $message = $ex->getMessage();
+            $success=false;
+        }     
+        return view ('message',compact('message','success'));
     }
 }
