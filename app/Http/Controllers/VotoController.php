@@ -127,7 +127,13 @@ class VotoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $voto= Voto::find($id);
+        if ($voto){
+            return view ('voto/edit',compact('voto'));
+        } else {
+            $message= "No se localizó voto $id";
+            return view('message',$message);
+        }
     }
 
     /**
@@ -139,7 +145,48 @@ class VotoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (!($this->validateVote($request))){
+            return "Lo votos no pueden ser negativos";
+        }
+        $candidatos=[];
+        foreach($request->all() as $key=>$value){
+            if (substr($key,0,10)=="candidato_")
+                $candidatos[substr($key,10)]=$value;
+        }
+
+        $data['eleccion_id']=$request->eleccion_id;
+        $data['casilla_id']=$request->casilla_id;
+        $evidenceFileName ="";
+        if ($request->hasFile('evidencia')) {
+            $evidenceFileName = $request->file('evidencia')->getClientOriginalName();
+        }
+        if ($request->hasFile('evidencia')) $request->file('evidencia')->move(public_path('pdf'), $evidenceFileName);
+
+        $data['evidencia']=$evidenceFileName;
+        
+        $message="save successfull";
+        $success=true;
+        DB::beginTransaction();
+        try {
+            //--- save to voto
+            Voto::whereId($id)->update($data);
+            //--- save to votocandidato
+            foreach($candidatos as $key=>$value){
+                Votocandidato::where("voto_id","=",$id) 
+                    ->where("candidato_id","=",$key) 
+                    ->update(["votos"=>$value]);
+            }
+            DB::commit();
+            
+        } catch (\Exception $e) {
+            $success=false;
+            DB::rollback();
+            $message=$e->getMessage();
+        }
+    
+        return view('message',compact('message','success'));
+    
+       
     }
 
     /**
