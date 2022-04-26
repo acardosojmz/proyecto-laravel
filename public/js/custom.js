@@ -7,18 +7,21 @@ function previewImage(event, imageId){
     }
   }
 
-const validateSize = (imageId, maxSize)=>{
-    let size= document.getElementById(imageId).files[0].size;
+const validateSize = (fileId, maxSize)=>{
+    let size= document.getElementById(fileId).files[0].size;
+    console.log("SIZE:" + size);
     return (size<=maxSize);
 }
-const validateType= (imageId,...fileTypes)=>{
-    let type= document.getElementById(imageId).files[0].type;
+
+const validateType= (fileId,...fileTypes)=>{
+    const NOT_FOUND=-1;
+    let type= document.getElementById(fileId).files[0].type;
     const upperCased = fileTypes.map(it => it.toUpperCase());
-    return (upperCased.indexOf(type.toUpperCase()) !== -1); 
+    return (upperCased.indexOf(type.toUpperCase()) !== NOT_FOUND); 
 }
 function validateData(){
     let isValid=true;
-    if (!validateSize('foto',2048)) {
+    if (!validateSize('foto',2048*1024)) {
         alert ("El tamaño de la foto debe ser menor a 2MB");
         isValid=false;
     }

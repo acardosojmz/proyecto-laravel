@@ -23,7 +23,7 @@
             action="{{ route('candidato.store') }} " 
             enctype="multipart/form-data"
             onsubmit="return validateData();">
-            
+            <!-- comment -->
             {{ csrf_field() }}
             <div class="form-group">
                 <label for="nombrecompleto">Nombre completo:</label>
@@ -56,5 +56,7 @@
         </form>
     </div>
 </div>
-<script type="text/javascript" src="{{ URL::asset('js/custom.js') }}"></script>
+<script type="text/javascript" 
+src="{{ URL::asset('js/custom.js') }}">
+</script>
 @endsection
