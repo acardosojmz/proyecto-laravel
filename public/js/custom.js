@@ -7,6 +7,15 @@ function previewImage(event, imageId){
     }
   }
 
+function previewPDF(event, idFrame){
+    if(event.target.files.length > 0){
+        let src = URL.createObjectURL(event.target.files[0]);
+        let pdfPreview = document.getElementById(idFrame);
+        pdfPreview.src = src;
+        pdfPreview.style.display = "block";
+    }
+}
+            
 const validateSize = (fileId, maxSize)=>{
     let size= document.getElementById(fileId).files[0].size;
     console.log("SIZE:" + size);
