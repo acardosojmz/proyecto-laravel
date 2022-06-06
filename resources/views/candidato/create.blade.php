@@ -41,7 +41,7 @@
                 <label for="foto">Foto:</label>
                 <input type="file" id="foto" accept="image/png, image/jpeg" 
                  class="form-control" name="foto" 
-                 onchange="previewImage(event,'imageCandidato');"
+                 onchange="preview(event,'imageCandidato');"
                   />
                   <img src="" id="imageCandidato" width="200px" heigth="200px">
             </div>
@@ -49,7 +49,7 @@
                 <label for="perfil">Perfil:</label>
                 <input type="file" id="perfil" accept="application/pdf"
                  class="form-control" name="perfil"   
-                 onchange="previewPDF(event, 'previewPDF' );" />
+                 onchange="preview(event, 'previewPDF' );" />
                   
             </div>
             <iframe id="previewPDF" style="display:none;" title="preview"></iframe>

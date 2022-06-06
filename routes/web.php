@@ -5,7 +5,8 @@ use App\Http\Controllers\CasillaController;
 use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\VotoController;
 //use App\Http\Controllers\CustomAuthController;
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LoginController; 
+use App\Http\Controllers\PDFController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,12 +21,16 @@ use App\Http\Controllers\Auth\LoginController;
 Route::get('/', function () {
     return view('welcome');
 });
+// Route::get('/phpinfo', function () {
+//     phpinfo();
+// });
 //Route::get('casilla', [CasillaController::class,'index'])->name('casilla.index');
 //Route::get('casilla/{casilla}/edit', [CasillaController::class,'edit'])->name('casilla.edit');
+Route::get('/casilla/pdf',[CasillaController::class,'generatepdf'])->name('casilla.pdf');
 Route::resource('casilla', CasillaController::class);
 Route::resource('candidato', CandidatoController::class);
 
-Route::resource('voto', VotoController::class);
+//Route::resource('voto', VotoController::class);
 /*
 Route::get('dashboard', [CustomAuthController::class, 'dashboard']); 
 Route::get('login', [CustomAuthController::class, 'index'])->name('login');
@@ -46,5 +51,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('voto', VotoController::class);
 });
 
-//Route::get('casilla/pdf', 'CasillaController@generatepdf');
-Route::get('/casilla/pdf',[CasillaController::class,'generatepdf'])->name('casilla.pdf');
+Route::get('preview', [PDFController::class, 'preview']);
+Route::get('download', [PDFController::class, 'download'])->name('download');
+

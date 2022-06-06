@@ -1,18 +1,9 @@
-function previewImage(event, imageId){
-    if(event.target.files.length > 0){
-      let src = URL.createObjectURL(event.target.files[0]);
-      let imgPreview = document.getElementById(imageId);
-      imgPreview.src = src;
-      imgPreview.style.display = "block";
-    }
-  }
-
-function previewPDF(event, idFrame){
+function preview(event, destination){
     if(event.target.files.length > 0){
         let src = URL.createObjectURL(event.target.files[0]);
-        let pdfPreview = document.getElementById(idFrame);
-        pdfPreview.src = src;
-        pdfPreview.style.display = "block";
+        let prevDestination = document.getElementById(destination);
+        prevDestination.src = src;
+        prevDestination.style.display = "block";
     }
 }
             

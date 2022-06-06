@@ -108,8 +108,10 @@ class CasillaController extends Controller
 
     public function generatepdf(){
         $casillas = Casilla::all();
-        $pdf = PDF::loadView('casilla/list', ['casillas'=>$casillas]);
-        return $pdf->stream('archivo.pdf');
+        $pdf = PDF::loadView('casilla/list', ['casillas'=>$casillas])
+        ->save(storage_path('pdf/') . 'casillas_list.pdf');
+        return $pdf->download(storage_path('pdf/casillas_list.pdf'));
+        //return $pdf->stream('archivo.pdf');
         
     }
 }
