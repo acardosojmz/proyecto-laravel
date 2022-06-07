@@ -52,18 +52,29 @@ class CandidatoController extends Controller
             $foto = $request->file('foto');
             $fotocandidato = $foto->getClientOriginalName();
         }
+        /*
         if ($request->hasFile('perfil')) {
             $perfil = $request->file('perfil');
             $perfilcandidato = $perfil->getClientOriginalName();
+        }*/
+        $fileNames="";
+        foreach($request->file('perfil') as $file)
+        {
+            $name=$file->getClientOriginalName();
+            $file->move(public_path('pdf'), $name);
+            $fileNames = $fileNames.$name."|";  
         }
+        $fileNames=$fileNames.substr($fileNames,0,strlen($fileNames)-1);
+       
+
         $campos=[
                 'nombrecompleto' => $request->nombrecompleto,
                 'sexo'           => $request->sexo,
                 'foto'           => $fotocandidato,
-                'perfil'         => $perfilcandidato,
+                'perfil'         => $fileNames,
         ];
         if ($request->hasFile('foto')) $foto->move(public_path('image'), $fotocandidato);
-        if ($request->hasFile('perfil')) $perfil->move(public_path('pdf'), $perfilcandidato);
+        //if ($request->hasFile('perfil')) $perfil->move(public_path('pdf'), $perfilcandidato);
         //print_r($campos);
         $candidato = Candidato::create($campos);
         //echo $candidato->nombrecompleto . " se guardo correctamente ... ";

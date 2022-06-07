@@ -30,11 +30,21 @@
             <td>{{$candidato->id}}</td>
             <td>{{$candidato->nombrecompleto}}</td>
             <td>{{$candidato->sexo}}</td>
-            <td><img src="image/{{$candidato->foto}}" width="128px" height="128px" ></td>
-            <td><a href="pdf/{{$candidato->perfil}}">{{$candidato->nombrecompleto}}</td>
-            <td><a href="{{ route('candidato.edit', $candidato->id)}}" 
-            class="btn btn-primary" >
-            <i class="fa fa-edit" aria-hidden="true"></i></a> </td>
+            <td><img src="img/{{$candidato->foto}}" width="128px" height="128px" ></td>
+            
+            <td>
+                
+                @foreach( preg_split("/\|/",$candidato->perfil) as $archivo)
+                    <a href="pdf/{{$archivo}}">
+                    {{$archivo}} <br> </a>
+                @endforeach
+
+            </td>
+            
+            <td> <a href="{{ route('candidato.edit', $candidato->id)}}" 
+                class="btn btn-primary" >
+                <i class="fa fa-edit" aria-hidden="true"></i></a> 
+            </td>
             <td>
 
             <form action="{{ route('candidato.destroy', $candidato->id)}}"

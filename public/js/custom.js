@@ -1,3 +1,14 @@
+function preview(event, divDestination){
+    for (let file of event.target.files){
+        let src = URL.createObjectURL(file);
+        let iframe = document.createElement("iframe");
+        iframe.src = src;
+        var destination = document.getElementById(divDestination);
+        destination.appendChild(iframe);
+        destination.style.display = "block";
+    };
+}
+/*
 function preview(event, destination){
     if(event.target.files.length > 0){
         let src = URL.createObjectURL(event.target.files[0]);
@@ -6,7 +17,7 @@ function preview(event, destination){
         prevDestination.style.display = "block";
     }
 }
-            
+*/            
 const validateSize = (fileId, maxSize)=>{
     let size= document.getElementById(fileId).files[0].size;
     console.log("SIZE:" + size);

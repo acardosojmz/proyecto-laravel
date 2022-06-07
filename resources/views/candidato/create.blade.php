@@ -41,18 +41,18 @@
                 <label for="foto">Foto:</label>
                 <input type="file" id="foto" accept="image/png, image/jpeg" 
                  class="form-control" name="foto" 
-                 onchange="preview(event,'imageCandidato');"
+                 onchange="preview(event,'previewImg');"
                   />
-                  <img src="" id="imageCandidato" width="200px" heigth="200px">
+                  <div id="previewImg" ></div>
             </div>
             <div class="form-group">
                 <label for="perfil">Perfil:</label>
                 <input type="file" id="perfil" accept="application/pdf"
-                 class="form-control" name="perfil"   
-                 onchange="preview(event, 'previewPDF' );" />
+                 class="form-control" name="perfil[]" multiple   
+                 onchange="preview(event, 'preview' );" />
                   
             </div>
-            <iframe id="previewPDF" style="display:none;" title="preview"></iframe>
+            <div id="preview" ></div>
             
             <button type="submit" 
             class="btn btn-primary">Guardar</button>
