@@ -64,7 +64,7 @@ class CandidatoController extends Controller
             $file->move(public_path('pdf'), $name);
             $fileNames = $fileNames.$name."|";  
         }
-        $fileNames=$fileNames.substr($fileNames,0,strlen($fileNames)-1);
+        $fileNames=substr($fileNames,0,strlen($fileNames)-1);
        
 
         $campos=[
